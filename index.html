@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balance Sweet — Automated Accounting & Bookkeeping</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #EEF0ED;
+    --surface: #F6F7F5;
+    --ink: #1C2420;
+    --ink-2: #4A5752;
+    --ink-3: #8A9994;
+    --accent: #2A3830;
+    --rule: #D2D9D4;
+    --green: #3D6B58;
+    --green-light: #E2EDE8;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2.5rem;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .logo {
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-mark {
+    width: 26px;
+    height: 26px;
+    background: #3D6B58;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-mark svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-tag {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--ink-3);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  /* HERO */
+  .hero {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 6rem 2.5rem 5rem;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  h1 {
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    max-width: 700px;
+    margin-bottom: 1.75rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ink-2);
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--ink-2);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .cta-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.15s;
+    letter-spacing: -0.01em;
+  }
+
+  .btn-primary:hover { opacity: 0.8; }
+
+  .cta-note {
+    font-size: 0.8rem;
+    color: var(--ink-3);
+    font-weight: 300;
+  }
+
+  /* STATS STRIP */
+  .stats {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--surface);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 100%;
+  }
+
+  .stat {
+    padding: 2.25rem 2.5rem;
+    border-right: 1px solid var(--rule);
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--ink-3);
+    font-weight: 300;
+  }
+
+  /* HOW IT WORKS */
+  .section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 3rem;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .step {
+    padding: 2rem 1.75rem;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .step:last-child { border-right: none; }
+
+  .step-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--ink-3);
+    margin-bottom: 1.25rem;
+  }
+
+  .step h3 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .step p {
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* WHAT WE HANDLE */
+  .services {
+    background: var(--surface);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .services-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+  }
+
+  .services-left {
+    padding-top: 0.15rem;
+  }
+
+  .services-left h2 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .service-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .service-list li {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.875rem;
+    color: var(--ink-2);
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .service-list li:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+
+  /* CTA SECTION */
+  .cta-section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 6rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .cta-left h2 {
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-left p {
+    font-size: 0.875rem;
+    color: var(--ink-2);
+    font-weight: 300;
+  }
+
+  .cta-right {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 1.75rem;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--ink-2);
+    margin-bottom: 0.4rem;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+    background: var(--bg);
+    color: var(--ink);
+    margin-bottom: 0.85rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .form-input:focus {
+    border-color: var(--ink-3);
+  }
+
+  .form-btn {
+    width: 100%;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1rem;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    cursor: pointer;
+    margin-top: 0.25rem;
+    transition: opacity 0.15s;
+    letter-spacing: -0.01em;
+  }
+
+  .form-btn:hover { opacity: 0.8; }
+
+  .form-note {
+    font-size: 0.72rem;
+    color: var(--ink-3);
+    text-align: center;
+    margin-top: 0.75rem;
+    font-weight: 300;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 1.75rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-left {
+    font-size: 0.8rem;
+    color: var(--ink-3);
+    font-weight: 300;
+  }
+
+  .footer-right {
+    font-size: 0.75rem;
+    color: var(--ink-3);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  /* THANK YOU STATE */
+  .thank-you {
+    display: none;
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  .thank-you p {
+    font-size: 0.875rem;
+    color: var(--green);
+    font-weight: 400;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    nav { padding: 1.25rem 1.25rem; }
+    .hero { padding: 3.5rem 1.25rem 3rem; }
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--rule); }
+    .stat:last-child { border-bottom: none; }
+    .section { padding: 3.5rem 1.25rem; }
+    .steps { grid-template-columns: 1fr; }
+    .step { border-right: none; border-bottom: 1px solid var(--rule); }
+    .step:last-child { border-bottom: none; }
+    .services-inner { grid-template-columns: 1fr; gap: 2rem; padding: 3.5rem 1.25rem; }
+    .service-list { grid-template-columns: 1fr; }
+    .service-list li:nth-last-child(-n+2) { border-bottom: 1px solid var(--rule); }
+    .service-list li:last-child { border-bottom: none; }
+    .cta-section { grid-template-columns: 1fr; gap: 2rem; padding: 3.5rem 1.25rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem 1.25rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+        <rect x="9.25" y="4.5" width="1.5" height="10" fill="white" rx="0.5"/>
+        <rect x="5.5" y="14" width="9" height="1.5" fill="white" rx="0.5"/>
+        <rect x="3" y="5.5" width="14" height="1.25" fill="white" rx="0.5"/>
+        <line x1="4.5" y1="6.75" x2="4.5" y2="9.5" stroke="white" stroke-width="1"/>
+        <line x1="15.5" y1="6.75" x2="15.5" y2="9.5" stroke="white" stroke-width="1"/>
+        <path d="M2.5 9.5 Q4.5 11.5 6.5 9.5" stroke="white" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <path d="M13.5 9.5 Q15.5 11.5 17.5 9.5" stroke="white" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <circle cx="10" cy="5.5" r="1" fill="white"/>
+      </svg>
+    </div>
+    Balance Sweet
+  </a>
+  <div class="nav-right">
+    <span class="nav-tag">balancesweet.com</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <p class="eyebrow">Automated accounting</p>
+  <h1>Bookkeeping that runs <em>itself</em></h1>
+  <p class="hero-sub">Balance Sweet handles your books automatically — categorizing transactions, reconciling accounts, and keeping your financials clean without the back-and-forth.</p>
+  <div class="cta-row">
+    <a href="#notify" class="btn-primary">Get early access</a>
+    <span class="cta-note">No commitment. We'll reach out when we're ready.</span>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">~80%</div>
+    <div class="stat-label">of bookkeeping tasks are routine and repeatable</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">Hours</div>
+    <div class="stat-label">saved per month on manual data entry and reconciliation</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">Real-time</div>
+    <div class="stat-label">books, always up to date — no waiting on month-end</div>
+  </div>
+</div>
+
+<section class="section">
+  <p class="section-label">How it works</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Connect your accounts</h3>
+      <p>Link your bank, credit cards, and accounting software. Setup takes minutes.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>We categorize and reconcile</h3>
+      <p>Transactions are automatically matched, categorized, and reconciled based on your chart of accounts.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Review and close</h3>
+      <p>You review a clean summary. Exceptions are flagged. Your books stay current without the manual work.</p>
+    </div>
+  </div>
+</section>
+
+<div class="services">
+  <div class="services-inner">
+    <div class="services-left">
+      <p class="section-label">What we handle</p>
+      <h2>The work you never wanted to do manually</h2>
+    </div>
+    <ul class="service-list">
+      <li><span class="dot"></span>Transaction categorization</li>
+      <li><span class="dot"></span>Bank reconciliation</li>
+      <li><span class="dot"></span>Accounts payable tracking</li>
+      <li><span class="dot"></span>Accounts receivable aging</li>
+      <li><span class="dot"></span>Monthly close support</li>
+      <li><span class="dot"></span>Financial reporting</li>
+      <li><span class="dot"></span>QuickBooks sync</li>
+      <li><span class="dot"></span>Audit-ready records</li>
+    </ul>
+  </div>
+</div>
+
+<section class="cta-section" id="notify">
+  <div class="cta-left">
+    <p class="section-label">Early access</p>
+    <h2>We're building something good.</h2>
+    <p>Leave your email and we'll be in touch when Balance Sweet is ready for new clients.</p>
+  </div>
+  <div class="cta-right">
+    <div id="form-wrap">
+      <label class="form-label" for="name">Your name</label>
+      <input class="form-input" type="text" id="name" placeholder="Jane Smith" autocomplete="name">
+      <label class="form-label" for="email">Work email</label>
+      <input class="form-input" type="email" id="email" placeholder="jane@company.com" autocomplete="email">
+      <label class="form-label" for="company">Company (optional)</label>
+      <input class="form-input" type="text" id="company" placeholder="Acme Inc.">
+      <button class="form-btn" onclick="handleSubmit()">Request early access</button>
+      <p class="form-note">No spam. No commitment. Just a heads-up when we launch.</p>
+    </div>
+    <div class="thank-you" id="thank-you">
+      <p>✓ You're on the list. We'll be in touch.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-left">© 2025 Balance Sweet. All rights reserved.</span>
+  <span class="footer-right">balancesweet.com</span>
+</footer>
+
+<script>
+  function handleSubmit() {
+    const email = document.getElementById('email').value.trim();
+    if (!email || !email.includes('@')) {
+      document.getElementById('email').focus();
+      return;
+    }
+    document.getElementById('form-wrap').style.display = 'none';
+    document.getElementById('thank-you').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
